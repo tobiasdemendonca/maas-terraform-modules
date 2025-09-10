@@ -24,6 +24,7 @@ variable "maas_constraints" {
     hosts but this is untested
     NOTE: if you set up the project with juju-bootstrap your
           controller will work with VMs
+    EOF
   type        = string
   default     = "cores=2 mem=4G virt-type=virtual-machine"
 }
