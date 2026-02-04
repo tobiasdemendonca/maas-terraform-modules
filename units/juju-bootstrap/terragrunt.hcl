@@ -23,12 +23,12 @@ terraform {
 }
 
 inputs = {
-  // Required variables
+  # Required inputs
   lxd_trust_token = values.lxd_trust_token
   lxd_address     = values.lxd_address
-
-  // Optional variables
-  cloud_name      = values.cloud_name
-  lxd_project     = values.lxd_project
-  model_defaults  = values.model_defaults
+  
+  # Optional inputs
+  cloud_name      = try(values.cloud_name, null)
+  lxd_project     = try(values.lxd_project, null)
+  model_defaults  = try(values.model_defaults, null)
 }
