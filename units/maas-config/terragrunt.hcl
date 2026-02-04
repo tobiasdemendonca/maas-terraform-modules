@@ -25,8 +25,8 @@ dependency "maas_setup" {
 
 inputs = {
   // Dependent variables
-  maas_url = dependency.maas_setup.outputs.maas_api_url
-  maas_key = dependency.maas_setup.outputs.maas_api_key
+  maas_url        = dependency.maas_setup.outputs.maas_api_url
+  maas_key        = dependency.maas_setup.outputs.maas_api_key
 
   // Required variables
   rack_controller = values.rack_controller

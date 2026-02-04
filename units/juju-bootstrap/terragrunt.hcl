@@ -15,7 +15,7 @@ terraform {
 
   before_hook "install_dependencies" {
     commands = ["apply"]
-    execute = [
+    execute  = [
       "${get_terragrunt_dir()}/scripts/install-dependencies.sh",
       values.juju_channel,
     ]
@@ -26,9 +26,9 @@ inputs = {
   # Required inputs
   lxd_trust_token = values.lxd_trust_token
   lxd_address     = values.lxd_address
-
+  
   # Optional inputs
-  cloud_name     = try(values.cloud_name, null)
-  lxd_project    = try(values.lxd_project, null)
-  model_defaults = try(values.model_defaults, null)
+  cloud_name      = try(values.cloud_name, null)
+  lxd_project     = try(values.lxd_project, null)
+  model_defaults  = try(values.model_defaults, null)
 }
