@@ -21,7 +21,7 @@ dependency "juju_bootstrap" {
     juju_cloud = "mock-cloud-name"
     controller = "controller-name"
   }
-  skip_outputs
+
 }
 
 locals {
