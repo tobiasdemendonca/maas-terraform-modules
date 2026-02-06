@@ -22,13 +22,21 @@ terraform {
   }
 }
 
-inputs = {
+locals {
+  optional_inputs = {
+    charm_postgresql_channel      = try(values.charm_postgresql_channel, null)
+    charm_s3_integrator_channel   = try(values.charm_s3_integrator_channel, null)
+  }
+}
+
+inputs = merge({
+  # Optional inputs (only passed if defined in the stacks config)
+  for k, v in local.optional_inputs :
+  k => v
+  if v != null
+},
+{
   # Required inputs
   lxd_trust_token = values.lxd_trust_token
   lxd_address     = values.lxd_address
-  
-  # Optional inputs
-  cloud_name      = try(values.cloud_name, null)
-  lxd_project     = try(values.lxd_project, null)
-  model_defaults  = try(values.model_defaults, null)
-}
+})
