@@ -47,7 +47,7 @@ remote_state {
 # Configure what repositories to search when you run 'terragrunt catalog'
 catalog {
   urls = [
-    "https://github.com/tobiasdemendonca/maas-terraform-modules?ref=feat/terragrunt-units-bootstrap",
+    "https://github.com/canonical/maas-terraform-modules?ref=main",
   ]
 }
 
