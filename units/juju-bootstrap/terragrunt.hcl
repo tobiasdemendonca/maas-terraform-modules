@@ -27,6 +27,8 @@ locals {
     charm_postgresql_channel      = try(values.charm_postgresql_channel, null)
     charm_s3_integrator_channel   = try(values.charm_s3_integrator_channel, null)
   }
+  lxd_project = try(values.lxd_project, null)
+  model_defaults = try(values.model_defaults, null)
 }
 
 inputs = merge({
