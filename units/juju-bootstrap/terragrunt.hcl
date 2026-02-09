@@ -24,11 +24,11 @@ terraform {
 
 locals {
   optional_inputs = {
-    charm_postgresql_channel      = try(values.charm_postgresql_channel, null)
-    charm_s3_integrator_channel   = try(values.charm_s3_integrator_channel, null)
+    cloud_name = try(values.cloud_name, null)
+    lxd_project = try(values.lxd_project, null)
+    model_defaults = try(values.model_defaults, null)
   }
-  lxd_project = try(values.lxd_project, null)
-  model_defaults = try(values.model_defaults, null)
+  
 }
 
 inputs = merge({
