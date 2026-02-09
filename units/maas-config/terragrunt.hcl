@@ -11,7 +11,7 @@ terraform {
   //
   // Assume that a user consuming this unit will exclusively have access
   // to the directory this file is in, and nothing else in this repository.
-  source = "git::git@github.com:skatsaounis/infrastructure-catalog.git//modules/maas-config?ref=${values.version}"
+  source = "git::git@github.com:canonical/maas-terraform-modules.git//modules/maas-config?ref=${values.version}"
 }
 
 dependency "maas_setup" {

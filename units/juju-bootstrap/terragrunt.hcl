@@ -30,7 +30,8 @@ locals {
 }
 
 inputs = merge({
-  # Optional inputs (only passed if defined in the stacks config)
+  # Optional inputs
+  # This enables module defaults to be used when not defined in stacks.
   for k, v in local.optional_inputs :
   k => v
   if v != null
