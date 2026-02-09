@@ -19,9 +19,9 @@
     lxd_address = "https://10.10.0.1:8443"
 
     // Optional variables
-    # lxd_project = "charmed-maas"
-    # model_defaults = {}
-    # cloud_name = "maas-cloud"
+    // lxd_project = "charmed-maas"
+    // model_defaults = {}
+    // cloud_name = "maas-cloud"
   }
 }
 
