@@ -45,3 +45,21 @@ unit "maas_deploy" {
 
   }
 }
+
+# unit "maas_config" {
+#   // You'll typically want to pin this to a particular version of your catalog repo.
+#   // e.g.
+#   // source = "git::git@github.com:skatsaounis/infrastructure-catalog.git//units/maas-setup?ref=v0.1.0"
+#   source = "../../../units/maas-config"
+  
+#   path = "maas-config"
+
+#   values = {
+#     // This version here is used as the version passed down to the unit
+#     // to use when fetching the OpenTofu/Terraform module.
+#     version = "feat/terragrunt-units-bootstrap"
+
+#     // Dependencies
+#     maas_setup_path = "../maas_deploy"
+#   }
+# }
