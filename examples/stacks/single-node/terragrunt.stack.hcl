@@ -18,7 +18,7 @@ unit "juju_bootstrap" {
     // The LXD trust token that Juju should use to authenticate to LXD
     lxd_trust_token = get_env("LXD_TRUST_TOKEN")
     // The API endpoint URL that Juju should use to communicate to LXD
-    lxd_address     = "https://10.10.0.1:8443"
+    lxd_address = "https://10.10.0.1:8443"
 
     // Optional variables
     // The LXD project that Juju should use for the controller resources
