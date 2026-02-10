@@ -23,16 +23,17 @@ dependency "maas_setup" {
   }
 }
 
-locals = {
+locals {
   optional_inputs = {
-    image_server_url     = try(values.image_server_url, null)
-    boot_selections      = try(values.boot_selections, null)
-    maas_config          = try(values.maas_config, null)
-    package_repositories = try(values.package_repositories, null)
-    tags                 = try(values.tags, null)
-    domains              = try(values.domains, null)
-    domain_records       = try(values.domain_records, null)
-    node_scripts         = try(values.node_scripts, null)
+    image_server_url      = try(values.image_server_url, null)
+    boot_selections       = try(values.boot_selections, null)
+    maas_config           = try(values.maas_config, null)
+    package_repositories  = try(values.package_repositories, null)
+    tags                  = try(values.tags, null)
+    domains               = try(values.domains, null)
+    domain_records        = try(values.domain_records, null)
+    node_scripts          = try(values.node_scripts, null)
+    node_scripts_location = try(values.node_scripts_location, null)
   }
 }
 
@@ -48,6 +49,5 @@ inputs = merge({
   maas_key        = dependency.maas_setup.outputs.maas_api_key
 
   // Required variables
-  rack_controller = values.rack_controller
-  pxe_subnet      = values.pxe_subnet
+  // (none)
 })
