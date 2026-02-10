@@ -23,7 +23,26 @@ dependency "maas_setup" {
   }
 }
 
-inputs = {
+locals = {
+  optional_inputs = {
+    image_server_url     = try(values.image_server_url, null)
+    boot_selections      = try(values.boot_selections, null)
+    maas_config          = try(values.maas_config, null)
+    package_repositories = try(values.package_repositories, null)
+    tags                 = try(values.tags, null)
+    domains              = try(values.domains, null)
+    domain_records       = try(values.domain_records, null)
+    node_scripts         = try(values.node_scripts, null)
+  }
+}
+
+inputs = merge({
+  # Optional inputs (only passed if defined in the stacks config)
+  for k, v in local.optional_inputs :
+  k => v
+  if v != null
+},
+{
   // Dependent variables
   maas_url        = dependency.maas_setup.outputs.maas_api_url
   maas_key        = dependency.maas_setup.outputs.maas_api_key
@@ -31,14 +50,4 @@ inputs = {
   // Required variables
   rack_controller = values.rack_controller
   pxe_subnet      = values.pxe_subnet
-
-  // Optional variables
-  image_server_url     = try(values.image_server_url, null)
-  boot_selections      = try(values.boot_selections, null)
-  maas_config          = try(values.maas_config, null)
-  package_repositories = try(values.package_repositories, null)
-  tags                 = try(values.tags, null)
-  domains              = try(values.domains, null)
-  domain_records       = try(values.domain_records, null)
-  node_scripts         = try(values.node_scripts, null)
-}
+})
