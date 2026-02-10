@@ -66,9 +66,9 @@ unit "maas_deploy" {
     // -- Workload: MAAS
     // charm_maas_region_channel  = ...
     // charm_maas_region_revision = ...
-    charm_maas_region_config   = {
-      enable_rack_mode = true
-    }
+    # charm_maas_region_config   = {      // Uncomment for region + rack configuration 
+    #   enable_rack_mode = true
+    # }
 
     // -- MAAS Admin configuration
     // admin_username   = ...
