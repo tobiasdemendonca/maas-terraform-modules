@@ -49,7 +49,7 @@ locals {
     charm_maas_region_revision = try(values.charm_maas_region_revision, null)
     charm_maas_region_config   = try(values.charm_maas_region_config, null)
 
-    //--- MAAS Admin configuration ---
+    // --- MAAS Admin configuration ---
     admin_username   = try(values.admin_username, null)
     admin_password   = try(values.admin_password, null)
     admin_email      = try(values.admin_email, null)
