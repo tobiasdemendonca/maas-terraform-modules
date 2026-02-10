@@ -15,7 +15,6 @@
     juju_channel = "3.6/stable"
 
     // Required variables
-    // You will have to add
     lxd_trust_token = get_env("LXD_TRUST_TOKEN")
     lxd_address = "https://10.10.0.1:8443"
 
@@ -66,7 +65,7 @@ unit "maas_deploy" {
     // -- Workload: MAAS
     // charm_maas_region_channel  = ...
     // charm_maas_region_revision = ...
-    # charm_maas_region_config   = {      // Uncomment for region + rack configuration 
+    # charm_maas_region_config   = {      // Uncomment for region + rack configuration
     #   enable_rack_mode = true
     # }
 
