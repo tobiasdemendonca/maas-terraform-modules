@@ -26,23 +26,23 @@ dependency "juju_bootstrap" {
 
 locals {
   optional_inputs = {
-      // --- Environment ---
+    // --- Environment ---
     juju_cloud_region = try(values.juju_cloud_region, null)
-    lxd_project        = try(values.lxd_project, null)
-    model_config       = try(values.model_config, null)
-    path_to_ssh_key    = try(values.path_to_ssh_key, null)
+    lxd_project       = try(values.lxd_project, null)
+    model_config      = try(values.model_config, null)
+    path_to_ssh_key   = try(values.path_to_ssh_key, null)
 
     // --- Machines and constraints ---
     maas_constraints     = try(values.maas_constraints, null)
     postgres_constraints = try(values.postgres_constraints, null)
-    enable_postgres_ha = try(values.enable_postgres_ha, null)
-    enable_maas_ha     = try(values.enable_maas_ha, null)
-    ubuntu_version     = try(values.ubuntu_version, null)
+    enable_postgres_ha   = try(values.enable_postgres_ha, null)
+    enable_maas_ha       = try(values.enable_maas_ha, null)
+    ubuntu_version       = try(values.ubuntu_version, null)
 
     // --- Workload: PostgreSQL ---
-    charm_postgresql_channel   = try(values.charm_postgresql_channel, null)
-    charm_postgresql_revision  = try(values.charm_postgresql_revision, null)
-    charm_postgresql_config    = try(values.charm_postgresql_config, null)
+    charm_postgresql_channel  = try(values.charm_postgresql_channel, null)
+    charm_postgresql_revision = try(values.charm_postgresql_revision, null)
+    charm_postgresql_config   = try(values.charm_postgresql_config, null)
 
     // --- Workload: MAAS ---
     charm_maas_region_channel  = try(values.charm_maas_region_channel, null)
@@ -75,8 +75,8 @@ inputs = merge({
   for k, v in local.optional_inputs :
   k => v
   if v != null
-},
-{
-  // --- Dependencies ---
-  juju_cloud_name   = dependency.juju_bootstrap.outputs.juju_cloud
+  },
+  {
+    // --- Dependencies ---
+    juju_cloud_name = dependency.juju_bootstrap.outputs.juju_cloud
 })

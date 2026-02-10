@@ -42,12 +42,12 @@ inputs = merge({
   for k, v in local.optional_inputs :
   k => v
   if v != null
-},
-{
-  // Dependent variables
-  maas_url        = dependency.maas_setup.outputs.maas_api_url
-  maas_key        = dependency.maas_setup.outputs.maas_api_key
+  },
+  {
+    // Dependent variables
+    maas_url = dependency.maas_setup.outputs.maas_api_url
+    maas_key = dependency.maas_setup.outputs.maas_api_key
 
-  // Required variables
-  // (none)
+    // Required variables
+    // (none)
 })
