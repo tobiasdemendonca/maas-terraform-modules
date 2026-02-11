@@ -127,3 +127,67 @@ unit "maas_deploy" {
     // s3_path_maas                 = ...
   }
 }
+
+unit "maas_config" {
+  // You'll typically want to pin this to a particular version of your catalog repo.
+  // e.g.
+  // source = "git::git@github.com:canonical/maas-terraform-modules.git//units/maas-deploy?ref=v0.1.0"
+  source = "../../../units/maas-config"
+
+  path = "maas-config"
+
+  values = {
+    // This version here is used as the version passed down to the unit
+    // to use when fetching the OpenTofu/Terraform module.
+    version = "feat/terragrunt-units-bootstrap"
+
+    // Dependencies
+    maas_deploy_path = "../maas-deploy"
+
+    // Required variables
+    // (none)
+
+    // Optional variables
+    // Uncomment and complete to customize. Defaults are shown where defined in variables.tf.
+    image_server_url = "http://images.maas.io/ephemeral-v3/stable/"
+    boot_selections = {
+      jammy = {
+        arches    = ["amd64"]
+        subarches = ["generic"]
+      }
+    }
+    package_repositories = {
+      foo_bar = {
+        url    = "http://foo.bar.com/foobar"
+        arches = "amd64,arm64"
+      }
+    }
+    maas_config = {
+      "default_osystem" = "ubuntu"
+    }
+    tags = {
+      "gpu-node" = {
+        comment = "Nodes with GPU hardware"
+      }
+    }
+    domains = {
+      "example.maas" = {
+        ttl           = 3600
+        is_default    = false
+        authoritative = true
+      }
+    }
+    domain_records = {
+      "example.maas" = [
+        {
+          name = "web"
+          type = "A/AAAA"
+          data = "192.168.1.100"
+          ttl  = 300
+        }
+      ]
+    }
+    node_scripts          = ["test.py"]
+    node_scripts_location = "/home/dummy/work/maas-terraform-modules/examples/stacks/single-node"
+  }
+}
