@@ -40,7 +40,7 @@ maas_config = {
 package_repositories = {
   foo_bar = {
     url    = "http://foo.bar.com/foobar"
-    arches = "amd64,arm64"
+    arches = ["amd64", "arm64"]
   }
 }
 # A map of tags to create, where key is the tag name and value is a map of
