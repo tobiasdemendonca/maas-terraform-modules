@@ -139,37 +139,39 @@ unit "maas_config" {
   values = {
     // This version here is used as the version passed down to the unit
     // to use when fetching the OpenTofu/Terraform module.
-    version = "feat/terragrunt-units-bootstrap"
+    version = "main"
 
     // Dependencies
-    maas_deploy_path = "../maas-deploy"
+    maas_deploy_path = "../maas-deploy" 
 
-    // Required variables
-    // (none)
-
-    // Optional variables
-    // Uncomment and complete to customize. Defaults are shown where defined in variables.tf.
+    // Optional variables 
+    // The URL of the boot source to synchronize OS images from. This needs to be a simple streams server
     image_server_url = "http://images.maas.io/ephemeral-v3/stable/"
+    // Configure MAAS to download these images immediately. Each key is the release name and the value is a map of architectures and - optionally - sub-architectures
     boot_selections = {
       jammy = {
         arches    = ["amd64"]
         subarches = ["generic"]
       }
     }
+    // A map of package repositories to supply to MAAS deployed machines, where key is the repository name and value is a map of package repository settings
     package_repositories = {
       foo_bar = {
         url    = "http://foo.bar.com/foobar"
-        arches = "amd64,arm64"
+        arches = ["amd64","arm64"]
       }
     }
+    // A map of MAAS configuration settings, where key is the setting name and value is the setting desired value
     maas_config = {
       "default_osystem" = "ubuntu"
     }
+    // A map of tags to create, where key is the tag name and value is a map of tag attributes
     tags = {
       "gpu-node" = {
         comment = "Nodes with GPU hardware"
       }
     }
+    // A map of DNS domains to create, where key is the domain name and value is a map of domain attributes
     domains = {
       "example.maas" = {
         ttl           = 3600
@@ -177,6 +179,7 @@ unit "maas_config" {
         authoritative = true
       }
     }
+    // A map of DNS domain records to create, where key is the domain name and value is a set domain records. Each domain record is a map of domain record attributes
     domain_records = {
       "example.maas" = [
         {
@@ -187,7 +190,9 @@ unit "maas_config" {
         }
       ]
     }
+    // A set of node scripts to create, where each set item points to the script file path relative to node_scripts_location
     node_scripts          = ["test.py"]
+    // The path in disk where node script files are located
     node_scripts_location = "/home/dummy/work/maas-terraform-modules/examples/stacks/single-node"
   }
 }
