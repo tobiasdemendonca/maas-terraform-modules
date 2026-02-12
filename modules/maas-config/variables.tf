@@ -53,12 +53,12 @@ variable "package_repositories" {
   EOF
   type = map(object({
     url                 = string
-    disabled_pockets    = optional(string)
-    disabled_components = optional(string)
+    disabled_pockets    = optional(set(string))
+    disabled_components = optional(set(string))
     disable_sources     = optional(string)
-    distributions       = optional(string)
-    components          = optional(string)
-    arches              = optional(string)
+    distributions       = optional(set(string))
+    components          = optional(set(string))
+    arches              = optional(set(string))
     key                 = optional(string)
     enabled             = optional(bool, true)
   }))
