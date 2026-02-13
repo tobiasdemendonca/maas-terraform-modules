@@ -191,7 +191,7 @@ unit "maas_config" {
       ]
     }
     // A set of node scripts to create, where each set item points to the script file path relative to node_scripts_location
-    node_scripts = ["test.py"]
+    node_scripts = ["testing-script.py"]
     // The path in disk where node script files are located
     node_scripts_location = "${get_terragrunt_dir()}/../resources"
   }
