@@ -193,6 +193,6 @@ unit "maas_config" {
     // A set of node scripts to create, where each set item points to the script file path relative to node_scripts_location
     node_scripts = ["test.py"]
     // The path in disk where node script files are located
-    node_scripts_location = "/home/dummy/work/maas-terraform-modules/examples/stacks/single-node"
+    node_scripts_location = "${get_terragrunt_dir()}/../resources"
   }
 }
