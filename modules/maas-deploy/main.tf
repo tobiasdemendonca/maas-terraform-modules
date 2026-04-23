@@ -113,11 +113,11 @@ resource "terraform_data" "juju_wait_for_all" {
     # be able to delete it after running the command, which will cause conflicts with other juju commands that might be running in parallel.
     command = <<-EOT
       export JUJU_DATA=/tmp/juju-$(openssl rand -hex 4)
+      trap 'rm -rf $JUJU_DATA' EXIT
       echo "$JUJU_PASSWORD" | /snap/juju/current/bin/juju login -c maas-controller "$JUJU_CONTROLLER_ADDRESS" -u "$JUJU_USERNAME" --trust --no-prompt
       MODEL_NAME=$(/snap/juju/current/bin/juju show-model "$MODEL" --format json | jq -r '. | keys[0]')
       /snap/juju/current/bin/juju wait-for model "$MODEL_NAME" --timeout 3600s \
         --query='forEach(units, unit => unit.workload-status == "active" && unit.agent-status == "idle")'
-      rm -rf $JUJU_DATA
     EOT
     environment = {
       MODEL                   = self.input.model
@@ -144,11 +144,11 @@ resource "terraform_data" "create_admin" {
     # be able to delete it after running the command, which will cause conflicts with other juju commands that might be running in parallel.
     command = <<-EOT
       export JUJU_DATA=/tmp/juju-$(openssl rand -hex 4)
+      trap 'rm -rf $JUJU_DATA' EXIT
       echo "$JUJU_PASSWORD" | /snap/juju/current/bin/juju login -c maas-controller "$JUJU_CONTROLLER_ADDRESS" -u "$JUJU_USERNAME" --trust --no-prompt
       /snap/juju/current/bin/juju run -m "$MODEL" maas-region/leader create-admin \
         username="$USERNAME" password="$PASSWORD" \
         email="$EMAIL" ssh-import="$SSH_IMPORT"
-      rm -rf $JUJU_DATA
     EOT
     environment = {
       MODEL                   = self.input.model
