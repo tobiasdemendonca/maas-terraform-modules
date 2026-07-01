@@ -45,7 +45,7 @@ unit "juju_bootstrap" {
     //    "mem"   = "2G"
     // }
     // The Juju cloud name. Juju will use this name to refer to the Juju cloud you are creating
-    // cloud_name = "maas-cloud"
+    cloud_name = "maas-3-8"
   }
 }
 
@@ -193,7 +193,7 @@ unit "maas_deploy" {
     // Bucket name to store PostgreSQL backups in
     s3_bucket_postgresql = "postgresql-backups"
     // Path in the S3 bucket to store PostgreSQL backups in
-    s3_path_postgresql = "postgresql-backups"
+    s3_path_postgresql = "postgresql-backups-2"
     // Bucket name to store MAAS backups in
     s3_bucket_maas = "maas-backups"
     // Path in the S3 bucket to store MAAS backups in
