@@ -348,3 +348,9 @@ variable "s3_path_maas" {
   type        = string
   default     = "/maas"
 }
+
+variable "skip_juju_provider_checks" {
+  description = "Whether to skip Juju provider checks when connecting to the Juju controller. Used by Terragrunt during the plan phase."
+  type        = bool
+  default     = false
+}

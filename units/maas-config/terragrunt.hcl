@@ -12,6 +12,11 @@ terraform {
   // Assume that a user consuming this unit will exclusively have access
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-config?ref=${values.version}"
+
+  extra_arguments "skip_version_checks" {
+    commands  = ["plan"]
+    arguments = ["-var=skip_version_checks=true"]
+  }
 }
 
 dependency "maas_deploy" {
@@ -21,7 +26,7 @@ dependency "maas_deploy" {
 
   mock_outputs = {
     maas_api_url = "http://mock-maas"
-    maas_api_key = "mock-password"
+    maas_api_key = "mock:api:key"
   }
 }
 

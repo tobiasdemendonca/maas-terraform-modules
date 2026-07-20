@@ -12,6 +12,13 @@ terraform {
   // Assume that a user consuming this unit will exclusively have access
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-deploy?ref=${values.version}"
+
+  // Skip the Juju provider's connection checks during `plan`, since a plan
+  // can be run before the Juju controller this unit depends on exists yet.
+  extra_arguments "skip_juju_checks_on_plan" {
+    commands  = ["plan"]
+    arguments = ["-var=skip_juju_provider_checks=true"]
+  }
 }
 
 dependency "juju_bootstrap" {
