@@ -13,9 +13,9 @@ terraform {
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-config?ref=${values.version}"
 
-  extra_arguments "skip_version_checks" {
+  extra_arguments "skip_api_checks" {
     commands  = ["plan"]
-    arguments = ["-var=skip_version_checks=true"]
+    arguments = ["-var=skip_api_checks=true"]
   }
 }
 
