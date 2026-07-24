@@ -15,10 +15,10 @@ terraform {
 
   // Skip the Juju provider's connection checks during `plan`, since a plan
   // can be run before the Juju controller this unit depends on exists yet.
-  extra_arguments "skip_juju_checks_on_plan" {
-    commands  = ["plan"]
-    arguments = ["-var=skip_juju_provider_checks=true"]
-  }
+  # extra_arguments "skip_juju_checks_on_plan" {
+  #   commands  = ["plan"]
+  #   arguments = ["-var=skip_juju_provider_checks=true"]
+  # }
 }
 
 dependency "juju_bootstrap" {
@@ -112,7 +112,7 @@ locals {
 
 inputs = merge(
   {
-    # Optional inputs (only passed if defined in the stacks config)
+    // Optional inputs (only passed if defined in the stacks config)
     for k, v in local.optional_inputs :
     k => v
     if v != null
@@ -121,5 +121,9 @@ inputs = merge(
     // --- Dependencies ---
     juju_cloud_name = coalesce(try(values.juju_cloud_name, null), try(dependency.juju_bootstrap.outputs.juju_cloud, null))
     juju_controller = coalesce(try(values.juju_controller, null), try(dependency.juju_bootstrap.outputs.juju_controller, null))
+    
+    # If someone hasn't specified the juju controller value, and the bootstrap dependency is definitely the mocked one, 
+    # then this is the first time someone is running `plan` as part of a stack that doesn't have a bootstrapped controller yet.
+    skip_juju_provider_checks = try(values.juju_controller, null) == null && try(dependency.juju_bootstrap.outputs.juju_controller.ca_certificate, null) == "mock-ca-cert"
   },
 )

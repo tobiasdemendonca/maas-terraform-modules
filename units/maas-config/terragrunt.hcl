@@ -13,10 +13,10 @@ terraform {
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-config?ref=${values.version}"
 
-  extra_arguments "skip_api_checks" {
-    commands  = ["plan"]
-    arguments = ["-var=skip_api_checks=true"]
-  }
+  # extra_arguments "skip_api_checks" {
+  #   commands  = ["plan"]
+  #   arguments = ["-var=skip_api_checks=true"]
+  # }
 }
 
 dependency "maas_deploy" {
@@ -58,6 +58,7 @@ inputs = merge({
     // Dependent variables
     maas_url = coalesce(try(values.maas_url, null), try(dependency.maas_deploy.outputs.maas_api_url, null))
     maas_key = coalesce(try(values.maas_key, null), try(dependency.maas_deploy.outputs.maas_api_key, null))
+    skip_api_checks = try(values.maas_url, null) == null && try(dependency.maas_deploy.outputs.maas_api_url, null) == "http://mock-maas"
 
     // Required variables
     // (none)
