@@ -14,6 +14,8 @@ resource "juju_model" "maas_model" {
     region = var.juju_cloud_region
   }
 
+  constraints = join(" ", [for key, value in var.model_constraints : "${key}=${value}"])
+
   config = merge(
     var.model_config,
     {
