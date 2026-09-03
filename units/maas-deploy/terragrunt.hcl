@@ -119,8 +119,8 @@ inputs = merge(
     juju_cloud_name = coalesce(try(values.juju_cloud_name, null), try(dependency.juju_bootstrap.outputs.juju_cloud, null))
     juju_controller = coalesce(try(values.juju_controller, null), try(dependency.juju_bootstrap.outputs.juju_controller, null))
 
-    # If someone hasn't specified the juju controller value, and the bootstrap dependency is definitely the mocked one,
-    # then this is the first time someone is running `plan` as part of a stack that doesn't have a bootstrapped controller yet.
+    // If someone hasn't specified the juju controller value, and the bootstrap dependency is definitely the mocked one,
+    // then this is the first time someone is running `plan` as part of a stack that doesn't have a bootstrapped controller yet.
     skip_juju_provider_checks = try(values.juju_controller, null) == null && try(dependency.juju_bootstrap.outputs.juju_controller.ca_certificate, null) == local.mock_ca_cert_value
   },
 )
