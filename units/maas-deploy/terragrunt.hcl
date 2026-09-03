@@ -12,13 +12,6 @@ terraform {
   // Assume that a user consuming this unit will exclusively have access
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-deploy?ref=${values.version}"
-
-  // Skip the Juju provider's connection checks during `plan`, since a plan
-  // can be run before the Juju controller this unit depends on exists yet.
-  # extra_arguments "skip_juju_checks_on_plan" {
-  #   commands  = ["plan"]
-  #   arguments = ["-var=skip_juju_provider_checks=true"]
-  # }
 }
 
 dependency "juju_bootstrap" {
@@ -32,7 +25,7 @@ dependency "juju_bootstrap" {
       controller_addresses = ["https://mock-controller:17070"]
       username             = "mock-username"
       password             = "mock-password"
-      ca_certificate       = "mock-ca-cert"
+      ca_certificate       = local.mock_ca_cert_value
     }
   }
 }
@@ -42,6 +35,9 @@ dependencies {
 }
 
 locals {
+  // Shared with the mock_outputs above, value checked in skip_juju_provider_checks below.
+  mock_ca_cert_value = "mock-ca-cert"
+
   optional_inputs = {
     // --- Environment ---
     juju_cloud_region = try(values.juju_cloud_region, null)
@@ -121,9 +117,9 @@ inputs = merge(
     // --- Dependencies ---
     juju_cloud_name = coalesce(try(values.juju_cloud_name, null), try(dependency.juju_bootstrap.outputs.juju_cloud, null))
     juju_controller = coalesce(try(values.juju_controller, null), try(dependency.juju_bootstrap.outputs.juju_controller, null))
-    
-    # If someone hasn't specified the juju controller value, and the bootstrap dependency is definitely the mocked one, 
+
+    # If someone hasn't specified the juju controller value, and the bootstrap dependency is definitely the mocked one,
     # then this is the first time someone is running `plan` as part of a stack that doesn't have a bootstrapped controller yet.
-    skip_juju_provider_checks = try(values.juju_controller, null) == null && try(dependency.juju_bootstrap.outputs.juju_controller.ca_certificate, null) == "mock-ca-cert"
+    skip_juju_provider_checks = try(values.juju_controller, null) == null && try(dependency.juju_bootstrap.outputs.juju_controller.ca_certificate, null) == local.mock_ca_cert_value
   },
 )

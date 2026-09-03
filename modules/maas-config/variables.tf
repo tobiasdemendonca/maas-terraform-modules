@@ -133,8 +133,8 @@ variable "node_scripts_location" {
   default = "."
 }
 
-variable "skip_api_checks" {
-  description = "Whether to skip version checks when running `terraform plan` in the MAAS Terraform provider. Used by Terragrunt during the plan phase."
+variable "skip_maas_provider_checks" {
+  description = "Whether to set `skip_api_checks` in the MAAS Terraform provider. Used by Terragrunt during the very first plan phase."
   type        = bool
   default     = false
 }

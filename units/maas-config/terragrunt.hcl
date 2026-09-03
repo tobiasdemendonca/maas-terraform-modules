@@ -12,11 +12,6 @@ terraform {
   // Assume that a user consuming this unit will exclusively have access
   // to the directory this file is in, and nothing else in this repository.
   source = "git::https://github.com/canonical/maas-terraform-modules.git//modules/maas-config?ref=${values.version}"
-
-  # extra_arguments "skip_api_checks" {
-  #   commands  = ["plan"]
-  #   arguments = ["-var=skip_api_checks=true"]
-  # }
 }
 
 dependency "maas_deploy" {
@@ -26,7 +21,7 @@ dependency "maas_deploy" {
 
   mock_outputs = {
     maas_api_url = "http://mock-maas"
-    maas_api_key = "mock:api:key"
+    maas_api_key = local.mock_maas_api_key
   }
 }
 
@@ -35,6 +30,9 @@ dependencies {
 }
 
 locals {
+  // Shared with the mock_outputs above, value checked in skip_maas_provider_checks below.
+  mock_maas_api_key = "mock:api:key"
+
   optional_inputs = {
     image_server_url      = try(values.image_server_url, null)
     boot_selections       = try(values.boot_selections, null)
@@ -49,7 +47,7 @@ locals {
 }
 
 inputs = merge({
-  # Optional inputs (only passed if defined in the stacks config)
+  // Optional inputs (only passed if defined in the stacks config)
   for k, v in local.optional_inputs :
   k => v
   if v != null
@@ -58,7 +56,10 @@ inputs = merge({
     // Dependent variables
     maas_url = coalesce(try(values.maas_url, null), try(dependency.maas_deploy.outputs.maas_api_url, null))
     maas_key = coalesce(try(values.maas_key, null), try(dependency.maas_deploy.outputs.maas_api_key, null))
-    skip_api_checks = try(values.maas_url, null) == null && try(dependency.maas_deploy.outputs.maas_api_url, null) == "http://mock-maas"
+
+    // If someone hasn't specified the MAAS URL, and the maas_deploy dependency is definitely the mocked one,
+    // then this is the first time someone is running `plan` as part of a stack that doesn't have a deployed MAAS yet.
+    skip_maas_provider_checks = try(values.maas_url, null) == null && try(dependency.maas_deploy.outputs.maas_api_key, null) == local.mock_maas_api_key
 
     // Required variables
     // (none)

@@ -1,7 +1,7 @@
 provider "maas" {
   api_key = var.maas_key
   api_url = var.maas_url
-  skip_api_checks = var.skip_api_checks
+  skip_api_checks = var.skip_maas_provider_checks
 }
 
 locals {
