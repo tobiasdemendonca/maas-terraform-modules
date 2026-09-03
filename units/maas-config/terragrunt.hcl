@@ -31,7 +31,7 @@ dependencies {
 
 locals {
   // Shared with the mock_outputs above, value checked in skip_maas_provider_checks below.
-  mock_maas_api_key = "mock:api:key"
+  mock_maas_api_key = "mock:mock:mock"
 
   optional_inputs = {
     image_server_url      = try(values.image_server_url, null)
