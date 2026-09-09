@@ -22,6 +22,7 @@ dependency "juju_bootstrap" {
   mock_outputs = {
     juju_cloud = "mock-cloud-name"
     juju_controller = {
+      lazy_api_check       = true # Enables stack run plan only when mocks are used. Relies on mock_outputs_merge_strategy_with_state = "shallow"
       controller_addresses = ["https://mock-controller:17070"]
       username             = "mock-username"
       password             = "mock-password"
@@ -113,7 +114,7 @@ locals {
 
 inputs = merge(
   {
-    # Optional inputs (only passed if defined in the stacks config)
+    // Optional inputs (only passed if defined in the stacks config)
     for k, v in local.optional_inputs :
     k => v
     if v != null
@@ -121,6 +122,7 @@ inputs = merge(
   {
     // --- Dependencies ---
     juju_controller = coalesce(try(values.juju_controller, null), try(dependency.juju_bootstrap.outputs.juju_controller, null))
+
   },
   # juju_cloud_name is only used in managed model mode. Resolve it from the unit
   # values or the juju_bootstrap dependency (dependency outputs may be referenced

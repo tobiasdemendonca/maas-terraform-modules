@@ -20,8 +20,11 @@ dependency "maas_deploy" {
   mock_outputs_merge_strategy_with_state = "shallow"
 
   mock_outputs = {
-    maas_api_url = "http://mock-maas"
-    maas_api_key = "mock:mock:mock"
+    maas = {
+      api_url         = "http://mock-maas"
+      api_key         = "mock:mock:mock"
+      skip_api_checks = true # Enables `stack run plan` only when mocks are used; real runs get no `skip_api_checks` key from maas-deploy and fall back to the variable's `optional(bool, false)` default. Relies on mock_outputs_merge_strategy_with_state = "shallow"
+    }
   }
 }
 
@@ -30,6 +33,7 @@ dependencies {
 }
 
 locals {
+
   optional_inputs = {
     image_server_url      = try(values.image_server_url, null)
     boot_selections       = try(values.boot_selections, null)
@@ -44,15 +48,14 @@ locals {
 }
 
 inputs = merge({
-  # Optional inputs (only passed if defined in the stacks config)
+  // Optional inputs (only passed if defined in the stacks config)
   for k, v in local.optional_inputs :
   k => v
   if v != null
   },
   {
     // Dependent variables
-    maas_url = coalesce(try(values.maas_url, null), try(dependency.maas_deploy.outputs.maas_api_url, null))
-    maas_key = coalesce(try(values.maas_key, null), try(dependency.maas_deploy.outputs.maas_api_key, null))
+    maas = coalesce(try(values.maas, null), try(dependency.maas_deploy.outputs.maas, null))
 
     // Required variables
     // (none)

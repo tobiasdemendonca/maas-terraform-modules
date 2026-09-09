@@ -29,6 +29,7 @@ variable "juju_controller" {
     username             = string
     password             = string
     ca_certificate       = string
+    lazy_api_check       = optional(bool, false)
   })
 }
 
